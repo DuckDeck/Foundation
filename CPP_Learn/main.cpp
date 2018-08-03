@@ -2,6 +2,28 @@
 #define random(x)(rand()%x)
 using namespace std;
 string  Get_Current_Date();
+
+class Line{
+    public:
+        void setLength(double len);
+        double getLength();
+        Line();
+    
+    private:
+        double length;
+};
+
+Line::Line(){
+    cout << "Object Line is being created" << endl;
+}
+
+void Line::setLength(double len){
+    length = len;
+}
+double Line::getLength(){
+    return length;
+}
+
 int main()
 {
     std::cout << "Hello, Universe! I'm running on Cloud Studio!\n";
@@ -52,7 +74,17 @@ int main()
     cout << ltm->tm_sec << endl;
 
     cout << Get_Current_Date().c_str() <<endl;
+
+    
+    Line line;
+    line.setLength(6.0);
+    cout << "Length of line :" << line.getLength() <<endl;
+
     getchar();
+
+    
+
+
     return 0;
 }
 
