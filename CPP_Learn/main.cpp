@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <fstream>
+#include <vector>
 #define random(x)(rand()%x)
 using namespace std;
 string  Get_Current_Date();
@@ -75,7 +76,48 @@ inline T const& Max(T const& a,T const& b){
 }
 
 
+template <class T>
 
+class Stack
+{
+private:
+  vector<T> elems;
+
+public:
+  void push(T const&);
+  T pop() const;
+  T top() const;
+  void ListElement() const;
+  bool empty() const{
+      return elems.empty();
+  }
+};
+
+template <class T>
+void Stack<T>::push (T const& elem){
+    elems.push_back(elem);
+}
+template <class T>
+T Stack<T>::pop() const{
+    if(elems.empty()){
+        throw out_of_range("Stack<>:top():empty stack");
+    }
+    return elems.back();
+}
+template <class T>
+T Stack<T>::top() const{
+    if(elems.empty()){
+        throw out_of_range("Stack<>:top():empty stack");
+    }
+    return elems.at(0);
+}
+template <class T>
+void Stack<T>::ListElement() const{
+    int i;
+    for (i = 0; i < elems.capacity();i++){
+        cout << "element: " << elems.at(i) << endl;
+    }
+}
 
 int main()
 {
@@ -155,6 +197,30 @@ int main()
 
     string s1 = "Hello", s2 = "Hellp";
     cout << "Max(s1,s2):" << Max(s1, s2) << endl;
+
+
+
+    
+    try
+    {
+        Stack<int> intStack;
+        Stack<string> stringStack;
+        intStack.push(7);
+        intStack.push(22);
+        cout << "intstack top" << intStack.top() << endl;
+        stringStack.push("stringStack push a something");
+        stringStack.push("stringStack push another something");
+        cout << "string stack top" << stringStack.top() << endl;
+        intStack.pop();
+        stringStack.pop();
+        intStack.ListElement();
+        stringStack.ListElement();
+    }
+    catch(const std::exception& e)
+    {
+        cerr << "exception" << e.what() << endl;
+    }
+    
 
     getchar();
 
