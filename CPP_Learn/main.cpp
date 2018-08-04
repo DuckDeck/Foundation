@@ -1,4 +1,6 @@
 #include <iostream>
+#include <ctime>
+#include <fstream>
 #define random(x)(rand()%x)
 using namespace std;
 string  Get_Current_Date();
@@ -24,21 +26,72 @@ double Line::getLength(){
     return length;
 }
 
+
+
+
+class Shape
+{
+protected:
+  int width, height;
+
+public:
+    Shape(int a = 0,int b = 0){
+        width = a;
+        height = b;
+    }
+    virtual int area() = 0;
+    ~Shape();
+};
+
+Shape::~Shape()
+{
+}
+
+class Rectangle:public Shape
+{
+    public:
+    Rectangle(int a = 0,int b=0):Shape(a,b){}
+    int area(){
+        float area = width * height ;
+        cout << "Rectangle Class Area:" << area << endl;
+        return area;
+    }
+};
+
+class Triangle:public Shape{
+    public:
+    Triangle(int a = 0,int b =0):Shape(a,b){ }
+    int area(){
+        float area = width * height / 2;
+        cout << "Triangle Class Area:" << area << endl;
+        return area;
+    }
+};
+
+
+template <typename T>
+inline T const& Max(T const& a,T const& b){
+    return a < b ? b : a;
+}
+
+
+
+
 int main()
 {
     std::cout << "Hello, Universe! I'm running on Cloud Studio!\n";
     printf("hello world\n");
 
     cout << "type: \t\t" << "************size**************"<< endl;  
-    cout << "bool: \t\t" << "所占字节数" <<sizeof(bool);
-    cout << "\t最大值：" << (numeric_limits<bool>::max)(); 
-    cout << "\t最小值：" << (numeric_limits<bool>::min)() <<endl;
-    cout << "char: \t\t" << "所占字节数：" << sizeof(char);  
-    cout << "\t最大值：" << (numeric_limits<char>::max)();  
-    cout << "\t\t最小值：" << (numeric_limits<char>::min)() << endl;  
-    cout << "signed char: \t" << "所占字节数：" << sizeof(signed char);  
-    cout << "\t最大值：" << (numeric_limits<signed char>::max)();  
-    cout << "\t\t最小值：" << (numeric_limits<signed char>::min)() << endl; 
+    cout << "bool: \t\t" << "occupy bit" <<sizeof(bool);
+    cout << "\t Max value:" << (numeric_limits<bool>::max)(); 
+    cout << "\t Min value:" << (numeric_limits<bool>::min)() <<endl;
+    cout << "char: \t\t" << "occupy bit:" << sizeof(char);  
+    cout << "\tMax value:" << (numeric_limits<char>::max)();  
+    cout << "\t\tMin valu:" << (numeric_limits<char>::min)() << endl;  
+    cout << "signed char:\t" << "occupy bit:" << sizeof(signed char);  
+    cout << "\tMax value:" << (numeric_limits<signed char>::max)();  
+    cout << "\t\tMin value:" << (numeric_limits<signed char>::min)() << endl; 
 
 
     int i,j;
@@ -50,26 +103,26 @@ int main()
     //然后将 time_t 型数据转化为(unsigned)型再传给 srand 函数，即： srand((unsigned) time(&t)); 还有一个经常用法，不需要定义time_t型t变量,
     //即： srand((unsigned) time(NULL)); 直接传入一个空指针，因为你的程序中往往并不需要经过参数获得的t数据
      /* 生成 10 个随机数 */
-     printf("100以内的随机数\n");
+     printf("In 100 random num \n");
      for(i=0;i<30;i++){
          //j=rand();
          //cout <<"随机数： " << j % 100 << endl;
-         cout <<"随机数： " << random(100) << endl;
+         cout <<"Random Num:" << random(100) << endl;
      }
 
 
     time_t now = time(0);
     char *dt = ctime(&now);
-    cout << "本地日期和时间: " << dt << endl;
+    cout << "Local Date And Time: " << dt << endl;
     tm *gmtm = gmtime(&now);
     dt = asctime(gmtm);
-    cout << "UTC 日期和时间: " << dt << endl;
+    cout << "UTC Date And Time: " << dt << endl;
     tm *ltm = localtime(&now);
      // 输出 tm 结构的各个组成部分
-    cout << "年: "<< 1900 + ltm->tm_year << endl;
-    cout << "月: "<< 1 + ltm->tm_mon<< endl;
-    cout << "日: "<<  ltm->tm_mday << endl;
-    cout << "时间: "<< ltm->tm_hour << ":";
+    cout << "Year: "<< 1900 + ltm->tm_year << endl;
+    cout << "Month: "<< 1 + ltm->tm_mon<< endl;
+    cout << "Day: "<<  ltm->tm_mday << endl;
+    cout << "Time: "<< ltm->tm_hour << ":";
     cout << ltm->tm_min << ":";
     cout << ltm->tm_sec << endl;
 
@@ -79,6 +132,29 @@ int main()
     Line line;
     line.setLength(6.0);
     cout << "Length of line :" << line.getLength() <<endl;
+
+    Shape *shape;
+    Rectangle rect(10, 10);
+    Triangle tria(10, 5);
+    shape = &rect;
+    shape->area();
+    shape = &tria;
+    shape->area();
+
+    double *pvalue = NULL;// 初始化为 null 的指针
+    pvalue = new double;// 为变量请求内存
+    *pvalue = 291114.12;// 在分配的地址存储值
+    cout << "Value of pvalue : " << *pvalue << endl;
+    delete pvalue;
+
+    i = 22, j = 20;
+    cout << "Max(i,l):" << Max(i, j) << endl;
+
+    double f1 = 5.5, f2 = 6.8;
+    cout << "Max(f1,f2):" << Max(f1, f2) << endl;
+
+    string s1 = "Hello", s2 = "Hellp";
+    cout << "Max(s1,s2):" << Max(s1, s2) << endl;
 
     getchar();
 
