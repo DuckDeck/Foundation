@@ -2,10 +2,16 @@
 #include <ctime>
 #include <fstream>
 #include <vector>
+#include <csignal>
+#include <windows.h>
+#include <thread>
 #define random(x)(rand()%x)
+#define PI 3.1415926
 using namespace std;
-string  Get_Current_Date();
 
+
+string  Get_Current_Date();
+void singleHandle(int signum);
 class Line{
     public:
         void setLength(double len);
@@ -48,10 +54,10 @@ Shape::~Shape()
 {
 }
 
-class Rectangle:public Shape
+class MyRectangle:public Shape
 {
     public:
-    Rectangle(int a = 0,int b=0):Shape(a,b){}
+    MyRectangle(int a = 0,int b=0):Shape(a,b){}
     int area(){
         float area = width * height ;
         cout << "Rectangle Class Area:" << area << endl;
@@ -176,7 +182,7 @@ int main()
     cout << "Length of line :" << line.getLength() <<endl;
 
     Shape *shape;
-    Rectangle rect(10, 10);
+    MyRectangle rect(10, 10);
     Triangle tria(10, 5);
     shape = &rect;
     shape->area();
@@ -220,12 +226,22 @@ int main()
     {
         cerr << "exception" << e.what() << endl;
     }
+    cout << "The value of pi is :" << PI << endl;
+
+    signal(SIGINT, singleHandle);
+    i = 0;
+    while(++i){
+        cout << "Going to sleep...." << endl;
+        if(i == 10){
+            raise(SIGINT);
+        }
+        Sleep(100);
+    }
     
 
     getchar();
 
     
-
 
     return 0;
 }
@@ -238,3 +254,16 @@ string  Get_Current_Date()
     strftime(tmp,sizeof(tmp),"%Y-%m-%d",localtime(&nowtime));   
     return tmp;
 }
+
+
+void singleHandle(int signum){
+    cout << "Interrupt single (" << signum << ") received. \n";
+    
+    // 清理并关闭
+    // 终止程序
+
+    exit(signum);
+}
+
+
+//就这样吧
