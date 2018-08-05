@@ -186,3 +186,58 @@ int yuv420_graybar(int width, int height, int ymin,int ymax,int barnum,char *url
     free(data_v);
     return 0;
 }
+
+//(7)计算两个YUV420P像素数据的PSNR
+//对于8bit量化的像素数据来说，PSNR的计算公式如下所示。
+//上述公式中mse的计算公式如下所示。其中M，N分别为图像的宽高，xij和yij分别为两张图像的每一个像素值。PSNR通常用于质量评价，
+//就是计算受损图像与原始图像之间的差别，以此来评价受损图像的质量。
+//程序计算后得到的PSNR取值为26.693。PSNR取值通常情况下都在20-50的范围内，取值越高，代表两张图像越接近，反映出受损图像质量越好
+double yuv420_psnr(char *url1, char *url2, int w,int h,int num){
+    FILE *fp1 = fopen(url1, "rb+");
+    FILE *fp2 = fopen(url2, "rb+");
+    unsigned char *pic1 = (unsigned char *)malloc(w * h);
+    unsigned char *pic2 = (unsigned char *)malloc(w * h);
+    double p = 0.0;
+    for (int i = 0; i < num;i++){
+        fread(pic1, 1, w * h, fp1);
+        fread(pic2, 1, w * h, fp2);
+        double mse_sum = 0, mse = 0, psnr = 0;
+        for (int j = 0; j < w * h;j++){
+            mse_sum += pow((double)(pic1[j] - pic2[j]), 2);
+        }
+        mse = mse_sum / (w * h);
+        psnr = 10 * log10(255.0 * 255.0 / mse);
+        printf("%5.3f\n", psnr);
+        fseek(fp1, w * h / 2, SEEK_CUR);
+        fseek(fp2, w * h / 2, SEEK_CUR);
+        p = psnr;
+    }
+    free(pic1);
+    free(pic2);
+    fclose(fp1);
+    fclose(fp2);
+    return p;
+}
+
+//(8) 分离RGB24像素数据中的R、G、B分量
+int rgb24_split(char* url,int w,int h,int num){
+    FILE *fp = fopen(url,"rb+");
+    FILE *fp1 = fopen("Media/material/output_r.y","wb+");
+    FILE *fp2 = fopen("Media/material/output_g.y","wb+");
+    FILE *fp3 = fopen("Media/material/output_b.y","wb+");
+    unsigned char *pic = (unsigned char *)malloc(w * h * 3);
+    for (int i = 0; i < num;i++){
+        fread(pic, 1, w * h * 3, fp);
+        for (int j = 0; j < w*h * 3;j += 3){
+            fwrite(pic + j, 1, 1, fp1);
+            fwrite(pic + j + 1, 1, 1, fp2);
+            fwrite(pic + j + 2, 1, 1, fp3);
+        }
+    }
+    free(pic);
+    fclose(fp);
+    fclose(fp1);
+    fclose(fp2);
+    fclose(fp3);
+    return 0;
+}
