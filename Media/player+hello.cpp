@@ -9,7 +9,6 @@ extern "C"
 #include "libavcodec/avcodec.h" //无论如何都找不到这个文件，不知道为什么，但是vscode是可以跳到这个文件的。
 #include "libavformat/avformat.h"
 #include "libavfilter/avfilter.h"
-
 };
 #else
 //Linux...
