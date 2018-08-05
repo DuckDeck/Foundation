@@ -127,6 +127,13 @@ void Stack<T>::ListElement() const{
 
 int main()
 {
+
+    char str[50];
+    strcpy(str,"this is the string.h library function");
+    puts(str);
+    memset(str + 37, '$', 7);
+    puts(str);
+
     std::cout << "Hello, Universe! I'm running on Cloud Studio!\n";
     printf("hello world\n");
 
@@ -230,13 +237,13 @@ int main()
 
     signal(SIGINT, singleHandle);
     i = 0;
-    while(++i){
-        cout << "Going to sleep...." << endl;
-        if(i == 10){
-            raise(SIGINT);
-        }
-        Sleep(100);
-    }
+    // while(++i){
+    //     cout << "Going to sleep...." << endl;
+    //     if(i == 10){
+    //         raise(SIGINT);
+    //     }
+    //     Sleep(100);
+    // }
     
 
     getchar();
