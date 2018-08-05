@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+
 using namespace std;
 #ifndef CIRCLE_H
 #define CIRCLE_H
