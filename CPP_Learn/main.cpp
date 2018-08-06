@@ -3,8 +3,9 @@
 #include <fstream>
 #include <vector>
 #include <csignal>
-#include <windows.h>
+// #include <windows.h>
 #include <thread>
+#include "a.h"
 #define random(x)(rand()%x)
 #define PI 3.1415926
 using namespace std;
@@ -127,6 +128,9 @@ void Stack<T>::ListElement() const{
 
 int main()
 {
+
+    int ss = func();
+    cout << ss << endl;
 
     char str[50];
     strcpy(str,"this is the string.h library function");
