@@ -278,3 +278,11 @@ void singleHandle(int signum){
 
 
 //就这样吧
+/*
+因为g++不会正确的编译其他的CPP文件，你可以看VSCode的命令：
+g++ /Users/stanhu/Desktop/Git/Foundation/CPP_Learn/main.cpp -o /Users/stanhu/Desktop/Git/Foundation/CPP_Learn/main.out -g -Wall -fcolor-diagnostics -std=c++11
+只编译了main.cpp文件而没有编译a.cpp文件，所以会出现symbols for architecture x86_64错误
+所以正确的做法是：g++ main.cpp a.cpp -o main.out
+再执行./main.out
+就没问题了，所以现在问题出来了，那么怎么样才能让VSCode正确的编译所有链接的CPP文件呢。
+*/

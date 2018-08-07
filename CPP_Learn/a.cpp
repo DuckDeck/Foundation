@@ -2,5 +2,5 @@
 #include "a.h"
 using namespace std;
 int func(){
-    return 0;
+    return 1110;
 }
