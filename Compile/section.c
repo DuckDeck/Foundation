@@ -1,5 +1,6 @@
 int printf(const char* format, ... );
 int global_init_var = 84;
+// __attribute__((section("FOO"))) int global_init_var = 84; 这样行不通
 int global_uninit_var;
 
 void func1(int i){
