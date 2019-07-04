@@ -101,3 +101,15 @@ Contents of section __eh_frame:
  0108 38000000 00000000 00410e10 8602430d  8........A....C.
  0118 06000000 00000000                    ........
  */
+/*
+可以使用nm来看o文件里面的符号
+nm section.o
+
+0000000000000000 T _func1
+0000000000000068 D _global_init_var
+0000000000000004 C _global_uninit_var
+0000000000000030 T _main
+000000000000006c d _main.static_var
+0000000000000120 b _main.static_var2
+                 U _printf
+ */
