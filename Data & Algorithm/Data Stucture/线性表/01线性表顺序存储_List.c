@@ -111,7 +111,6 @@ Status ListInsert(SqList *L,int i,ElemType e){
     //printf("写入%d \n",e);
     L->data[i] = e;
     L->length++;
-    
     return OK;
 }
 /* 初始条件：顺序线性表L已存在，1≤i≤ListLength(L) */
@@ -131,7 +130,7 @@ Status ListDelete(SqList *L,int i,ElemType *e){
     *e = L->data[i];   //将要删除的值交给e
     if (i<L->length)
     {
-       for (k= i; k < L->length ; k++)
+       for (k= i+1; k < L->length ; k++)
        {
            L->data[k-1]=L->data[k]; //从该位置开始，将后面的item全部向前移动
        }
@@ -152,12 +151,28 @@ Status ListTraverse(SqList L){
     return OK;
 }
 
+
+
+/*将B表且不在A表的数据添加到A表*/
+Status Union(SqList *A,SqList B){
+    int len_a, len_b;
+    ElemType e;
+    len_a = ListLength(*A);
+    len_b = ListLength(B);
+    for (int i = 0; i < len_b; i++)
+    {
+        GetElem(B,i,&e);
+        if (!LocateElem(*A,e))
+        {
+            ListInsert(A,len_a++,e);
+        }
+        
+    }
+}
+
+
 int main(){
-
     printf("01线性表顺序存储_List  \n");
-
-
-
     SqList L ;
     ElemType e;
     Status i;
@@ -166,11 +181,24 @@ int main(){
     printf("初始化后：L.lenfth=%d \n",L.length);
     for (j = 0; j < 10; j++)
     {
-        ListInsert(&L,0,j);
+        ListInsert(&L,j,j);
     }
     printf("在L的表头依次插入1～10后：L.data=%d \n",L.length);
     ListTraverse(L);
-    ListDelete(&L,0,&e);
-    visit(e);
+    ListDelete(&L,2,&e);
+    ListTraverse(L);
+    printf("\n");
+    SqList L2;
+    InitList(&L2);
+    for (j = 33; j < 40; j++)
+    {
+        ListInsert(&L2,j-33,j);
+    }
+    ListTraverse(L2);
+    Union(&L,L2);
+    ListTraverse(L);
+    ListDelete(&L,1,&e);
+    ListTraverse(L);
+ 
     return 0;
 }
