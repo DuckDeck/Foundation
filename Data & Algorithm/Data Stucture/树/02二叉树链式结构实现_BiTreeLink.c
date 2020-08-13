@@ -14,7 +14,7 @@
 typedef int Status;/* Status是函数的类型,其值是函数结果状态代码，如OK等 */
 
 int Index = 1; 
-typedef char String[7];
+typedef char String[24];
 
 String str;
 Status StrAssign(String T,char *c){
@@ -36,7 +36,7 @@ Status StrAssign(String T,char *c){
 
 
 typedef char ElemType;
-ElemType Nil=' '; /* 锟街凤拷锟斤拷锟皆空革拷锟轿拷锟� */
+ElemType Nil=' '; 
 Status visit(ElemType e){
     printf("%c ",e);
     return OK;
@@ -76,11 +76,10 @@ void DestroyBiTree(BiTree *T){
 }
 
 void CreateBiTree(BiTree *T){
-    if (Index >= str[0])
+    if (Index >=  str[0])
     {
         return;
     }
-    
     ElemType ch;
     ch = str[Index++];
     if (ch == '#')
@@ -89,6 +88,8 @@ void CreateBiTree(BiTree *T){
     }
     else{
         *T = (BiTree)malloc(sizeof(BiTNode));
+        (*T)->lchild = NULL;
+        (*T)->rchild = NULL;
         if (!*T)
         {
             exit(OVERFLOW);
@@ -157,9 +158,9 @@ void MidTraverse(BiTree T){
         return;
     }
     
-    PreTraverse(T->lchild);
+    MidTraverse(T->lchild);
     visit(T->data);
-    PreTraverse(T->rchild);
+    MidTraverse(T->rchild);
 }
 
 void BackTraverse(BiTree T){
@@ -168,8 +169,8 @@ void BackTraverse(BiTree T){
         return;
     }
    
-    PreTraverse(T->lchild);
-    PreTraverse(T->rchild);
+    BackTraverse(T->lchild);
+    BackTraverse(T->rchild);
      visit(T->data);
 }
 
@@ -180,15 +181,30 @@ int main(){
     BiTree T;
     ElemType e1;
     InitBiTree(&T);
-    // StrAssign(str,"ABDH#K###E##CFI###G#J##");
-    StrAssign(str,"ABC#EF#");
+    StrAssign(str,"ABDH#K###E##CFI###G#J##");
+
     CreateBiTree(&T);
 	printf("建立二叉树后,树空否？%d(1:是 0:否) 树的深度=%d\n",BiTreeEmpty(T),BiTreeDepth(T));
     e1=Root(T);
     if(e1)
-		printf("二叉树的根为：%d\n",e1);
+		printf("二叉树的根为：%c\n",e1);
 	else
 		printf("树空，无根\n");
-
+    printf("前序\n");    
+    PreTraverse(T);
+    printf("\n");
+    printf("中序\n");
+    MidTraverse(T);
+    printf("\n");
+    printf("后序\n");
+    BackTraverse(T);
+    printf("\n");   
+    ClearBiTree(&T);
+	printf("清空二叉树后,树空否？%d(1:是 0:否) 树的深度=%d\n",BiTreeEmpty(T),BiTreeDepth(T));
+    e1=Root(T);
+    if(e1)
+		printf("二叉树的根为：%c\n",e1);
+	else
+		printf("树空，无根\n");
     return 0;
 }
