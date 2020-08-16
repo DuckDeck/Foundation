@@ -110,27 +110,59 @@ void InsertSort(SqList *L){
 
 void ShellSort(SqList *L){
     int i,j,tmp;
-    int increment = L->length;
+    int increment = L->length; //设置增量为数组长度
     do
     {
-        increment = increment / 3;
-        for (i = increment + 1; i < L->length; i++)
+        increment = increment / 3; //重新设置增量为其三分之一
+        for (i = increment; i < L->length; i++) //从增量处开始处理
         {
-            if (L->r[i]<L->r[i-increment])
+            if (L->r[i]<L->r[i-increment]) //如果该处比增量的前一个数小
             {
-                tmp = L->r[i];
-                for (j = i-increment; j>=0&&tmp < L->r[j]; j -= increment)
+                tmp = L->r[i]; //后一个数保存为tmp
+                for (j = i-increment; j>=0&&tmp < L->r[j]; j -= increment)  //把后面的那个数，也就是tmp和前面的数比较，如果tmp小，那么把前面的数插到后面去
                 {
-                    L->r[j+increment] = L->r[j];
+                    L->r[j+increment] = L->r[j];  //把前面的数插到后面去
                 }
-                L->r[j+increment] = tmp;
+                L->r[j+increment] = tmp;  //这个时侯的j应该是比较小的，在前面，所以要把tmp放进来
             }
             
         }
         
     } while (increment > 1);
-    
 }
+int Partition(SqList *L,int low,int high){
+        int pivotKey = L->r[low];
+        while (low < high)
+        {
+            while (low < high && L->r[high] > pivotKey)
+            {
+               high --;
+            }
+            swap(L,low,high);
+            while (low<high&&L->r[low]<=pivotKey)
+            {
+                low ++;
+            }
+            swap(L,low,high);
+        }
+        return low;
+}
+void QSort(SqList *L,int low,int high){
+    int pivot;
+    if (low < high)
+    {
+       pivot = Partition(L,low,high);
+       QSort(L,low,pivot - 1);
+       QSort(L,pivot + 1,high);
+    }
+}
+/* 对顺序表L作快速排序 */
+void QuickSort(SqList *L){
+    QSort(L,0,L->length-1);
+}
+
+
+
 
 int main(){
     int i;
@@ -166,6 +198,8 @@ int main(){
     printf("SHELL排序:\n");
     print(l4);
 
-
+     QuickSort(&l8);
+    printf("快速排序:\n");
+    print(l8);
 
 }
