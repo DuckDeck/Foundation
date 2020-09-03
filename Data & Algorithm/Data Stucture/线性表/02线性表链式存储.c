@@ -212,13 +212,32 @@ Status CreateListTail(LinkList *L,int n){
         r->next = p;   /* 将表尾终端结点的指针指向新结点 */
         r = p;
     }
-    r->next = NULL;  /* 表示当前链表结束 */     
+    r->next = NULL;  /* 表示当前链表结束 */ 
+    return OK;    
 }
+
+// //链表反转
+// void ReverseLink(LinkList *L){
+//     LinkList *pre;
+//     LinkList *cur = L;
+//     while (cur != NULL)
+//     {
+//        Node *next = (*cur)->next;
+//        (*cur)->next = NULL;
+//        pre = cur;
+//        cur = next;
+//     }
+    
+// }
+
 int main(){
-     LinkList L;
+    LinkList L;
     ElemType e;
     Status i;
     int j,k;
+
+    printf("%s",&j);
+
     i=InitList(&L);
     printf("初始化L后：ListLength(L)=%d\n",ListLength(L));
     for(j=1;j<=5;j++)
@@ -294,6 +313,7 @@ int main(){
     CreateListTail(&L,20);
     printf("整体创建L的元素(尾插法)：");
     ListTraverse(L); 
-
+    ReverseLink(&L);
+    ListTraverse(L);   
     return 0;
-}
+} 
